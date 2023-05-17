@@ -1,36 +1,40 @@
+import { useContext } from "react";
 import { Avatar, Bio, Container, Header, GithubContainer, Name, Info, InfoItem } from './styles';
 
 import { BsBoxArrowUpRight, BsBuildingFill } from 'react-icons/bs'
 import { FaGithub, FaUserFriends } from 'react-icons/fa'
 import { Link } from '../../../../components/Link';
+import { GithubContext } from "../../../../contexts/GithubContext";
 
 export const Profile = () => {
+  const { user } = useContext(GithubContext)
+
   return (
     <Container>
-      <Avatar src='https://avatars.githubusercontent.com/u/54981257?v=4' />
+      <Avatar src={user?.avatar_url} />
       <GithubContainer>
         <Header>
-          <Name>Bruno Santos</Name>
-          <Link href='https://github.com'>
+          <Name>{user?.name}</Name>
+          <Link href={user?.html_url}>
             Github
             <BsBoxArrowUpRight size={12} />
           </Link>
         </Header>
         <Bio>
-          Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu viverra massa quam dignissim aenean malesuada suscipit. Nunc, volutpat pulvinar vel mass.
+          {user?.bio}
         </Bio>
         <Info>
           <InfoItem>
             <FaGithub />
-            brsantos197
+            {user?.login}
           </InfoItem>
           <InfoItem>
             <BsBuildingFill />
-            Rocketseat
+            {user?.company}
           </InfoItem>
           <InfoItem>
             <FaUserFriends />
-            15 Seguidores
+            {user?.followers} Seguidores
           </InfoItem>
         </Info>
       </GithubContainer>
