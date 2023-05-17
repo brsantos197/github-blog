@@ -42,7 +42,7 @@ export const Name = styled.h2`
   font-weight: ${theme.FONT.WEIGHT.bold};
   font-size: ${theme.FONT.SIZES['2xl']};
   line-height: ${theme.LINE_HEIGHT[130]};
-  color: ${theme.COLORS['base-title']}
+  color: ${theme.COLORS['base-title']};
   `}
 `
 
