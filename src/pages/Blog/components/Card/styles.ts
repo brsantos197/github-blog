@@ -1,3 +1,4 @@
+import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -36,7 +37,7 @@ export const CardHeader = styled.div`
     color: ${({ theme }) => theme.COLORS['base-span']};
   }
 `
-export const CardContent = styled.div`
+export const CardContent = styled(ReactMarkdown)`
   font-size: ${({ theme }) => theme.FONT.SIZES['md']};
   font-weight: ${({ theme }) => theme.FONT.WEIGHT.regular};
   color: ${({ theme }) => theme.COLORS['base-text']};

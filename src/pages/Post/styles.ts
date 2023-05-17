@@ -1,6 +1,7 @@
+import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
 import styled from 'styled-components';
 
-export const PostContent = styled.div`
+export const PostContent = styled(ReactMarkdown)`
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -8,13 +9,4 @@ export const PostContent = styled.div`
 
   color: ${({ theme }) => theme.COLORS['base-text']};
   line-height: ${({ theme }) => theme.LINE_HEIGHT[160]};
-  
-  b {
-    font-weight: ${({ theme }) => theme.FONT.WEIGHT.bold};
-  }
-
-  a {
-    color: ${({ theme }) => theme.COLORS.blue};
-    text-decoration: underline;
-  }
 `;

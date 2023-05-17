@@ -7,6 +7,7 @@ interface GithubContextType {
   user?: UserType
   getPosts: (filter: string) => Promise<void>
   posts?: PostDataType
+  repo: string
 }
 
 interface GithubContextProviderProps {
@@ -23,10 +24,11 @@ export const GithubContext = createContext({} as GithubContextType)
 export const GithubProvider = ({ children }: GithubContextProviderProps) => {
   const [user, setUser] = useState<UserType>()
   const [posts, setPosts] = useState<PostDataType>()
+  const [repo] = useState('github-blog')
 
   const getPosts = async (filter: string) => {
     if (user) {
-      const { data } = await api.get(`/search/issues?q=${encodeURI(filter)}%20repo:${user.login}/github-blog`)
+      const { data } = await api.get(`/search/issues?q=${encodeURI(filter)}%20repo:${user.login}/${repo}`)
       setPosts(data)
     }
   }
@@ -48,7 +50,8 @@ export const GithubProvider = ({ children }: GithubContextProviderProps) => {
       value={{
         user,
         getPosts,
-        posts
+        posts,
+        repo
       }}
     >
       {children}
