@@ -1,24 +1,43 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { Profile } from "./components/Profile";
 import { Publications } from "./components/Publications";
-import { Input } from "./components/Input";
 import { Card } from "./components/Card";
 import { Cards } from "./components/Cards";
 
 import { NavLink } from "react-router-dom";
 import { GithubContext } from "../../contexts/GithubContext";
+import { useForm } from "react-hook-form";
+import { Container, InputContainer } from "./styles";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const searchFormSchema = z.object({
+  query: z.string()
+})
+
+type SearchFormInputs = z.infer<typeof searchFormSchema>
 
 export const Blog = () => {
   const { posts, getPosts } = useContext(GithubContext)
-  const [filter, setFilter] = useState('')
+
+  const { handleSubmit, register, formState: { isSubmitting } } = useForm<SearchFormInputs>({
+    resolver: zodResolver(searchFormSchema)
+  })
 
 
+  const handleGetPosts = async (data: SearchFormInputs) => {
+    await getPosts(data.query)
+  }
   return (
-    <>
+    <Container>
       <Profile />
       <Publications count={posts?.total_count} />
-      <Input value={filter} onChange={(e) => { setFilter(e.target.value) }} placeholder="Buscar conteúdo" />
-      <button onClick={() => { getPosts(filter) }}>Enviar</button>
+      <form onSubmit={handleSubmit(handleGetPosts)}>
+        <InputContainer>
+          <input minLength={3} placeholder="Buscar conteúdo" {...register('query')} />
+        </InputContainer>
+        <button disabled={isSubmitting} type='submit'></button>
+      </form>
       <Cards>
         {posts?.items.map((post, index) => (
           <NavLink to={`/post/${post.number}`} key={index}>
@@ -26,6 +45,6 @@ export const Blog = () => {
           </NavLink>
         ))}
       </Cards>
-    </>
+    </Container>
   );
 }
